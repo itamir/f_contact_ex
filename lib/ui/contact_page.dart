@@ -109,7 +109,8 @@ class _ContactPageState extends State<ContactPage> {
                                 ? FileImage(File(_editedContact.img))
                                 : AssetImage("images/person.png")))),
                 onTap: () {
-                  ImagePicker.pickImage(source: ImageSource.camera)
+                  ImagePicker()
+                      .getImage(source: ImageSource.camera, imageQuality: 50)
                       .then((file) {
                     if (file == null)
                       return;
