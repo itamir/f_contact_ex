@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: FlatButton(
+                        child: TextButton(
                             child: Text("ligar",
                                 style: TextStyle(
                                     color: Colors.lightBlue, fontSize: 20.0)),
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                             })),
                     Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: FlatButton(
+                        child: TextButton(
                             child: Text("editar",
                                 style: TextStyle(
                                     color: Colors.lightBlue, fontSize: 20.0)),
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                             })),
                     Padding(
                         padding: EdgeInsets.all(10.0),
-                        child: FlatButton(
+                        child: TextButton(
                             child: Text("excluir",
                                 style: TextStyle(
                                     color: Colors.lightBlue, fontSize: 20.0)),
