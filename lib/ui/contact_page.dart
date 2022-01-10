@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ContactPage extends StatefulWidget {
-  Contact contact;
+  Contact? contact;
 
   //construtor que inicia o contato.
   //Entre chaves porque é opcional.
@@ -16,8 +16,8 @@ class ContactPage extends StatefulWidget {
 }
 
 class _ContactPageState extends State<ContactPage> {
-  Contact _editedContact;
-  bool _userEdited;
+  Contact? _editedContact;
+  bool _userEdited = false;
 
   //para garantir o foco no nome
   final _nomeFocus = FocusNode();
@@ -36,15 +36,16 @@ class _ContactPageState extends State<ContactPage> {
     if (widget.contact == null)
       _editedContact = Contact();
     else {
-      _editedContact = Contact.fromMap(widget.contact.toMap());
-      nomeController.text = _editedContact.name;
-      emailController.text = _editedContact.email;
-      phoneController.text = _editedContact.phone;
+      _editedContact = widget.contact;
+
+      nomeController.text = _editedContact!.name;
+      emailController.text = _editedContact!.email;
+      phoneController.text = _editedContact!.phone;
     }
   }
 
   Future<bool> _requestPop() {
-    if (_userEdited != null && _userEdited) {
+    if (_userEdited) {
       showDialog(
           context: context,
           builder: (context) {
@@ -82,11 +83,11 @@ class _ContactPageState extends State<ContactPage> {
       child: Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.lightBlue,
-            title: Text(_editedContact.name ?? "Novo contato"),
+            title: Text(_editedContact!.name),
             centerTitle: true),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            if (_editedContact.name != null && _editedContact.name.isNotEmpty)
+            if (_editedContact!.name.isNotEmpty)
               Navigator.pop(context, _editedContact);
             else
               FocusScope.of(context).requestFocus(_nomeFocus);
@@ -105,9 +106,10 @@ class _ContactPageState extends State<ContactPage> {
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: _editedContact.img != null
-                                ? FileImage(File(_editedContact.img))
-                                : AssetImage("images/person.png")))),
+                            image: _editedContact!.img != ''
+                                ? FileImage(File(_editedContact!.img))
+                                : AssetImage('images/person.png')
+                                    as ImageProvider))),
                 onTap: () {
                   ImagePicker()
                       .getImage(source: ImageSource.camera, imageQuality: 50)
@@ -116,7 +118,7 @@ class _ContactPageState extends State<ContactPage> {
                       return;
                     else {
                       setState(() {
-                        _editedContact.img = file.path;
+                        _editedContact!.img = file.path;
                       });
                     }
                   });
@@ -129,7 +131,7 @@ class _ContactPageState extends State<ContactPage> {
                 onChanged: (text) {
                   _userEdited = true;
                   setState(() {
-                    _editedContact.name = text;
+                    _editedContact!.name = text;
                   });
                 },
               ),
@@ -139,7 +141,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(labelText: "E-mail"),
                 onChanged: (text) {
                   _userEdited = true;
-                  _editedContact.email = text;
+                  _editedContact!.email = text;
                 },
               ),
               TextField(
@@ -148,7 +150,7 @@ class _ContactPageState extends State<ContactPage> {
                 decoration: InputDecoration(labelText: "Telefone"),
                 onChanged: (text) {
                   _userEdited = true;
-                  _editedContact.phone = text;
+                  _editedContact!.phone = text;
                 },
               )
             ],

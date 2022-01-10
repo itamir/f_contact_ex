@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ContactHelper helper = ContactHelper();
-  List<Contact> contatos = List();
+  List<Contact> contatos = [];
 
   //carregando a lista de contatos do banco ao iniciar o app
   @override
@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
     helper.getAllContact().then((list) {
       //atualizando a lista de contatos na tela
       setState(() {
-        contatos = list;
+        contatos = list.cast<Contact>();
       });
     });
   }
@@ -79,9 +79,10 @@ class _HomePageState extends State<HomePage> {
                   decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: contatos[index].img != null
+                          image: contatos[index].img != ''
                               ? FileImage(File(contatos[index].img))
-                              : AssetImage("images/person.png"))),
+                              : AssetImage("images/person.png")
+                                  as ImageProvider)),
                 ),
                 Padding(
                   padding: EdgeInsets.only(left: 10.0),
@@ -90,16 +91,16 @@ class _HomePageState extends State<HomePage> {
                     children: <Widget>[
                       //se não existe nome, joga vazio
                       Text(
-                        contatos[index].name ?? "",
+                        contatos[index].name,
                         style: TextStyle(
                             fontSize: 22.0, fontWeight: FontWeight.bold),
                       ),
                       Text(
-                        contatos[index].email ?? "",
+                        contatos[index].email,
                         style: TextStyle(fontSize: 18.0),
                       ),
                       Text(
-                        contatos[index].phone ?? "",
+                        contatos[index].phone,
                         style: TextStyle(fontSize: 18.0),
                       ),
                     ],
@@ -169,18 +170,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   //mostra o contato. Parâmetro opcional
-  void _showContactPage({Contact contact}) async {
+  void _showContactPage({Contact? contact}) async {
     Contact contatoRet = await Navigator.push(context,
         MaterialPageRoute(builder: (context) => ContactPage(contact: contact)));
 
-    if (contatoRet != null) {
-      print(contatoRet.id);
-      if (contatoRet.id == null)
-        await helper.saveContact(contatoRet);
-      else
-        await helper.updateContact(contatoRet);
+    if (contatoRet.id == 0)
+      await helper.saveContact(contatoRet);
+    else
+      await helper.updateContact(contatoRet);
 
-      updateList();
-    }
+    updateList();
   }
 }
