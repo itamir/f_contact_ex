@@ -53,12 +53,12 @@ class _ContactPageState extends State<ContactPage> {
               title: Text("Abandonar alteração?"),
               content: Text("Os dados serão perdidos."),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                     child: Text("cancelar"),
                     onPressed: () {
                       Navigator.pop(context);
                     }),
-                FlatButton(
+                TextButton(
                   child: Text("sim"),
                   onPressed: () {
                     //desempilha 2x

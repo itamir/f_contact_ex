@@ -7,9 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'contact_page.dart';
 
-//enum para opções de ordenação.
-enum OrderOptions { orderAz, orderZa }
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -40,14 +37,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contatos"),
-        backgroundColor: Colors.lightBlue,
-        centerTitle: true,
-        actions: <Widget>[
-          PopupMenuButton<OrderOptions>(
-              itemBuilder: (context) => <PopupMenuEntry<OrderOptions>>[]),
-        ],
-      ),
+          title: Text("Contatos"),
+          backgroundColor: Colors.lightBlue,
+          centerTitle: true),
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
